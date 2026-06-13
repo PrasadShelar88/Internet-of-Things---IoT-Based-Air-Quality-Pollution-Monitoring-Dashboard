@@ -1,0 +1,31 @@
+CORRECT FRONTEND COMMANDS
+=========================
+
+Use PowerShell:
+
+cd "C:\Projects\IOT\Internet of Things - IoT-Based Air Quality & Pollution Monitoring Dashboard\air_quality_frontend"
+.\run_frontend.bat
+
+If PowerShell has issue, use:
+
+cmd /c run_frontend.bat
+
+Open:
+
+http://127.0.0.1:5500
+
+Backend must be running separately at:
+
+http://127.0.0.1:8000
+
+Correct order:
+
+1) Backend window:
+cd "C:\Projects\IOT\Internet of Things - IoT-Based Air Quality & Pollution Monitoring Dashboard\air_quality_backend"
+.\run_backend.bat
+
+2) Frontend window:
+cd "C:\Projects\IOT\Internet of Things - IoT-Based Air Quality & Pollution Monitoring Dashboard\air_quality_frontend"
+.\run_frontend.bat
+
+Do not close either window while using the dashboard.

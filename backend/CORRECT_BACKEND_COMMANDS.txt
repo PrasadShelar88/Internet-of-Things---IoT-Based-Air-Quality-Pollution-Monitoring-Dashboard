@@ -1,0 +1,16 @@
+Correct backend commands for your project:
+
+cd "C:\Projects\IOT\Internet of Things - IoT-Based Air Quality & Pollution Monitoring Dashboard\air_quality_backend"
+.\run_backend.bat
+
+Backend URL:
+http://127.0.0.1:8000
+
+Frontend URL:
+http://127.0.0.1:5500
+
+Important:
+- First run backend.
+- Keep backend window open.
+- Then run frontend from air_quality_frontend.
+- The folder path contains &, so always keep the path inside quotes.

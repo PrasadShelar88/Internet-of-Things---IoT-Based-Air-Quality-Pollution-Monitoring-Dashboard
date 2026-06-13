@@ -1,0 +1,6 @@
+timestamp,aqi,air_quality,air_quality_value,pm25,pm10,gas,co2,co,temperature,humidity,pollution_status,category,alert_status,alert,message
+2026-06-12T09:00:00,42,150,42,18,40,150,520,1.4,29,58,Good,Good,NORMAL,False,NORMAL: Air quality is within configured limits
+2026-06-12T09:05:00,78,240,78,44,82,240,780,4.2,30,55,Moderate,Moderate,NORMAL,False,NORMAL: Air quality is within configured limits
+2026-06-12T09:10:00,132,410,132,72,130,410,1200,10.5,33,49,Poor,Poor,ALERT,True,ALERT: AQI 132 > 100; PM2.5 72.0 > 60.0; Gas 410 > 350; CO2 1200 > 1000; CO 10.5 > 9.0
+2026-06-12T12:54:53,75.0,250.0,75.0,35.0,70.0,250.0,850.0,4.0,30.0,55.0,Moderate,Moderate,NORMAL,False,NORMAL: Air quality is within configured limits
+2026-06-12T12:54:54,75.0,250.0,75.0,35.0,70.0,250.0,850.0,4.0,30.0,55.0,Moderate,Moderate,NORMAL,False,NORMAL: Air quality is within configured limits

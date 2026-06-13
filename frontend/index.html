@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IoT Air Quality & Pollution Monitoring Dashboard</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">IoT Course Project</p>
+      <h1>Air Quality & Pollution Monitoring Dashboard</h1>
+      <p class="subtitle">Real-time AQI, PM2.5, PM10, gas, CO₂, CO, temperature, humidity, alerts and reports.</p>
+    </div>
+    <div class="status-card" id="backendStatus">
+      <span class="status-dot pending"></span>
+      <div>
+        <strong>Checking backend...</strong>
+        <small>http://127.0.0.1:8000</small>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel control-panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Backend Connection</h2>
+          <p>Start backend first, then run this frontend.</p>
+        </div>
+        <button id="saveBackendBtn" class="btn secondary">Save URL</button>
+      </div>
+      <div class="url-row">
+        <label for="backendUrl">Backend URL</label>
+        <input id="backendUrl" value="http://127.0.0.1:8000" spellcheck="false" />
+        <button id="testBtn" class="btn">Test</button>
+      </div>
+      <div id="toast" class="toast hidden"></div>
+    </section>
+
+    <section class="grid cards-grid">
+      <article class="metric-card wide" id="mainStatusCard">
+        <span class="label">Latest Status</span>
+        <strong id="pollutionStatus">--</strong>
+        <p id="alertMessage">Waiting for data...</p>
+      </article>
+      <article class="metric-card">
+        <span class="label">AQI</span>
+        <strong id="aqiValue">--</strong>
+        <small id="aqiHelp">Air Quality Index</small>
+      </article>
+      <article class="metric-card">
+        <span class="label">PM2.5</span>
+        <strong><span id="pm25Value">--</span> <small>µg/m³</small></strong>
+        <small>Fine particles</small>
+      </article>
+      <article class="metric-card">
+        <span class="label">PM10</span>
+        <strong><span id="pm10Value">--</span> <small>µg/m³</small></strong>
+        <small>Coarse particles</small>
+      </article>
+      <article class="metric-card">
+        <span class="label">MQ135 Gas</span>
+        <strong id="gasValue">--</strong>
+        <small>Raw pollution index</small>
+      </article>
+      <article class="metric-card">
+        <span class="label">CO₂</span>
+        <strong><span id="co2Value">--</span> <small>ppm</small></strong>
+        <small>Carbon dioxide</small>
+      </article>
+      <article class="metric-card">
+        <span class="label">CO</span>
+        <strong><span id="coValue">--</span> <small>ppm</small></strong>
+        <small>Carbon monoxide</small>
+      </article>
+      <article class="metric-card">
+        <span class="label">Temperature</span>
+        <strong><span id="temperatureValue">--</span> <small>°C</small></strong>
+        <small>DHT sensor</small>
+      </article>
+      <article class="metric-card">
+        <span class="label">Humidity</span>
+        <strong><span id="humidityValue">--</span> <small>%</small></strong>
+        <small>DHT sensor</small>
+      </article>
+    </section>
+
+    <section class="panel actions-panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Virtual Simulation</h2>
+          <p>Generate readings when you do not have actual ESP32/MQ135/DHT hardware.</p>
+        </div>
+        <button id="refreshBtn" class="btn secondary">Refresh</button>
+      </div>
+      <div class="button-row">
+        <button class="btn scenario good" data-mode="normal">Normal</button>
+        <button class="btn scenario moderate" data-mode="moderate">Moderate</button>
+        <button class="btn scenario poor" data-mode="poor">Poor</button>
+        <button class="btn scenario hazardous" data-mode="hazardous">Hazardous</button>
+      </div>
+      <div class="button-row export-row">
+        <button id="csvBtn" class="btn secondary">Download CSV</button>
+        <button id="pdfBtn" class="btn secondary">Download PDF Report</button>
+        <button id="clearBtn" class="btn danger">Clear Logs</button>
+      </div>
+    </section>
+
+    <section class="grid two-col">
+      <article class="panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Manual Reading</h2>
+            <p>Save custom sensor values from real hardware or testing.</p>
+          </div>
+        </div>
+        <form id="manualForm" class="form-grid">
+          <label>AQI<input type="number" name="aqi" value="75" min="0" step="1" /></label>
+          <label>PM2.5<input type="number" name="pm25" value="35" min="0" step="0.1" /></label>
+          <label>PM10<input type="number" name="pm10" value="70" min="0" step="0.1" /></label>
+          <label>Gas<input type="number" name="gas" value="250" min="0" step="1" /></label>
+          <label>CO₂<input type="number" name="co2" value="850" min="0" step="1" /></label>
+          <label>CO<input type="number" name="co" value="4" min="0" step="0.1" /></label>
+          <label>Temperature<input type="number" name="temperature" value="30" step="0.1" /></label>
+          <label>Humidity<input type="number" name="humidity" value="55" min="0" max="100" step="0.1" /></label>
+          <button class="btn full" type="submit">Save Manual Reading</button>
+        </form>
+      </article>
+
+      <article class="panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Threshold Settings</h2>
+            <p>Change safe limits used for alert generation.</p>
+          </div>
+        </div>
+        <form id="thresholdForm" class="form-grid">
+          <label>Max AQI<input type="number" name="max_aqi" value="100" min="0" step="1" /></label>
+          <label>Max PM2.5<input type="number" name="max_pm25" value="60" min="0" step="0.1" /></label>
+          <label>Max PM10<input type="number" name="max_pm10" value="100" min="0" step="0.1" /></label>
+          <label>Max Gas<input type="number" name="max_gas" value="350" min="0" step="1" /></label>
+          <label>Max CO₂<input type="number" name="max_co2" value="1000" min="0" step="1" /></label>
+          <label>Max CO<input type="number" name="max_co" value="9" min="0" step="0.1" /></label>
+          <label>Max Temp<input type="number" name="max_temperature" value="45" step="0.1" /></label>
+          <label>Max Humidity<input type="number" name="max_humidity" value="80" min="0" max="100" step="0.1" /></label>
+          <button class="btn full" type="submit">Save Thresholds</button>
+        </form>
+      </article>
+    </section>
+
+    <section class="grid two-col">
+      <article class="panel chart-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>AQI Trend</h2>
+            <p>Recent air quality readings.</p>
+          </div>
+        </div>
+        <canvas id="aqiChart" height="250"></canvas>
+      </article>
+
+      <article class="panel chart-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Environment Trend</h2>
+            <p>Temperature and humidity changes.</p>
+          </div>
+        </div>
+        <canvas id="envChart" height="250"></canvas>
+      </article>
+    </section>
+
+    <section class="panel table-panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Recent Air Quality Logs</h2>
+          <p>Latest sensor readings saved by the backend.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>AQI</th>
+              <th>PM2.5</th>
+              <th>PM10</th>
+              <th>Gas</th>
+              <th>Temp</th>
+              <th>Humidity</th>
+              <th>Status</th>
+              <th>Alert</th>
+            </tr>
+          </thead>
+          <tbody id="logsBody">
+            <tr><td colspan="9">No readings yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Project: IoT-Based Air Quality & Pollution Monitoring Dashboard</p>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

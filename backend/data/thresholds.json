@@ -1,0 +1,11 @@
+{
+  "max_aqi": 100.0,
+  "max_pm25": 60.0,
+  "max_pm10": 100.0,
+  "max_gas": 350.0,
+  "max_co2": 1000.0,
+  "max_co": 9.0,
+  "max_temperature": 45.0,
+  "min_humidity": 20.0,
+  "max_humidity": 80.0
+}
